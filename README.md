@@ -12,6 +12,6 @@ Events binding is done by ```EventCenter``` When rendering custom elements, serv
 - [x] Render template
 - [x] Events binding
 - [ ] Parse nested custom elements.
-- [ ] Support for loop and expression in template
+- [ ] Support forloop and expressions in template
 - [ ] Support import.
 - [ ] Resolve elements dependencies
