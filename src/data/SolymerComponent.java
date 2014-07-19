@@ -5,6 +5,7 @@ import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.parser.Tag;
+import org.jsoup.select.NodeVisitor;
 
 import java.util.Iterator;
 
@@ -24,7 +25,7 @@ public class SolymerComponent {
         this.componentName = element.attr("name");
         this.templateElement = element.getElementsByTag("template").get(0);
         this.scriptElement = element.getElementsByTag("script").get(0);
-        this.wrapperTag = Tag.valueOf(element.attr("extend"));
+        this.wrapperTag = Tag.valueOf(element.attr("wrapper"));
     }
 
     public String getComponentName() {
@@ -43,19 +44,52 @@ public class SolymerComponent {
         return scriptElement;
     }
 
-    public Element resolveTemplate(Attributes attrs) {
-        //System.out.println("attrs is " + attrs);
-        return parseTemplate(attrs);
+    public Element resolveTemplate(String id, Attributes attrs) {
+        return parseTemplate(id, attrs);
     }
 
-    private Element parseTemplate(Attributes attrs) {
-        Element resolvedTemplate = templateElement.clone();
+    private String parseContent(String content, Attributes attrs) {
         Iterator<Attribute> it = attrs.iterator();
-        String html = templateElement.html();
+
+        while (it.hasNext()) {
+            Attribute attr = it.next();
+            content = content.replace("{{" + attr.getKey() + "}}", attr.getValue());
+        }
+        return content;
+    }
+
+    private Element parseTemplate(final String id, Attributes attrs) {
+        Element resolvedTemplate = templateElement.clone();
+        resolvedTemplate.traverse(new NodeVisitor() {
+            @Override
+            public void head(Node node, int i) {
+                if (node instanceof Element) {
+                    Element ele = (Element) node;
+                    String onClick = ele.attr("on-click");
+                    if (onClick.startsWith("{{") && onClick.endsWith("}}")) {
+                        System.out.println(onClick);
+                        ele.removeAttr("on-click");
+                        onClick = onClick.substring(2, onClick.length() - 2);
+                        ele.attr("onclick", "EventCenter.publishEvent('" + id +"', '" +  onClick + "')");
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void tail(Node node, int i) {
+
+            }
+        });
+        Iterator<Attribute> it = attrs.iterator();
+        String html = resolvedTemplate.html();
         while (it.hasNext()) {
             Attribute attr = it.next();
             html = html.replace("{{" + attr.getKey() + "}}", attr.getValue());
         }
+
+
         Element element = new Element(wrapperTag, "/", attrs);
         element.html(html);
         return element;

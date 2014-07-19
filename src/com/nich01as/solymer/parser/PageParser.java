@@ -30,7 +30,7 @@ public class PageParser {
         Element root = new Element(Tag.valueOf("root"), "/", new Attributes());
         final StringBuilder scriptBuilder = new StringBuilder();
         scriptBuilder.append("<script>\n");
-       
+
         final Set<String> parsedComponents = new HashSet<String>();
         final Set<SolymerComponentInstance> componentInstances = new HashSet<SolymerComponentInstance>();
         stack.push(root);
@@ -49,10 +49,11 @@ public class PageParser {
                     if (components.get(node.nodeName()) != null) {
                         //System.out.println("Resolving " + node.nodeName());
                         SolymerComponent component = components.get(node.nodeName());
-                        toBeAdded = components.get(node.nodeName()).resolveTemplate(node.attributes());
-                        long id = random.nextLong();
-                        componentInstances.add(new SolymerComponentInstance(id,component, node.attributes()));
-                        toBeAdded.attr("id", String.valueOf(id));
+                        String id = String.valueOf(random.nextInt());
+                        toBeAdded = components.get(node.nodeName()).resolveTemplate(id, node.attributes());
+
+                        //componentInstances.add(new SolymerComponentInstance(id, component, node.attributes()));
+                        toBeAdded.attr("id", id);
                         toBeAdded.attr("kind", component.getComponentName());
                         if (!parsedComponents.contains(component.getComponentName())) {
                             parsedComponents.add(component.getComponentName());
@@ -82,6 +83,7 @@ public class PageParser {
         scriptBuilder.append("</script>");
 
         Document document = (Document) root.child(0);
+        System.out.println("initial document " + document + "\n\n");
         document.body().append(scriptBuilder.toString());
         return document;
     }

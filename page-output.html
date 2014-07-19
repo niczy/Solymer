@@ -2,17 +2,29 @@
  <head> 
  </head> 
  <body> 
-  <span name="hello" id="5754043465852380322" kind="solymer-input"><button on-click="{{sayHello}}"> Click Me </button> hello</span> 
-  <span id="7287910927660701991" kind="solymer-botguard">This is botguard program.</span> 
-  <script src="./static/solymer.js" type="text/javascript">
-  </body>
-</html>
-</script>
+  <div name="hello" id="581942915" kind="solymer-input">
+   <button onclick="EventCenter.publishEvent('581942915', 'sayHello')"> Click Me </button> hello
+  </div> 
+  <div id="1193051002" kind="solymer-botguard">
+   This is botguard program.
+  </div> 
+  <div name="word" id="-1152152971" kind="solymer-input">
+   <button onclick="EventCenter.publishEvent('-1152152971', 'sayHello')"> Click Me </button> word
+  </div> 
+  <script src="./static/solymer.js" type="text/javascript"></script>   
   <script>
 Polymer('solymer-input', {
+      initialText: "lalalal",
+      initialState: {
+        text: "test",
+        value: 123
+      },
       onload: function() {
         console.log("solymer input loaded");
       },
+      sayHello: function(event) {
+        alert("Hello" + this.initialText + " name :" + this.getAttribute('name'));
+      }
     });
 Polymer('solymer-botguard', {
       onload: function() {
