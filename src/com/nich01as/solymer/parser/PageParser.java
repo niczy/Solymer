@@ -1,8 +1,8 @@
 package com.nich01as.solymer.parser;
 
-import data.SolymerComponent;
-import data.SolymerComponentInstance;
-import data.SolymerPage;
+import com.nich01as.solymer.data.SolymerComponent;
+import com.nich01as.solymer.data.SolymerComponentInstance;
+import com.nich01as.solymer.data.SolymerPage;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;

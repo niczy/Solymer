@@ -1,7 +1,6 @@
 package com.nich01as.solymer.parser;
 
-import data.SolymerComponent;
-import org.apache.commons.io.FileUtils;
+import com.nich01as.solymer.data.SolymerComponent;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;

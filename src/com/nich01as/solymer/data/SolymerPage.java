@@ -1,7 +1,6 @@
-package data;
+package com.nich01as.solymer.data;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 /**
  * Created by nicholaszhao on 7/18/14.
