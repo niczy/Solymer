@@ -2,14 +2,14 @@
  <head> 
  </head> 
  <body> 
-  <div name="hello" id="581942915" kind="solymer-input">
-   <button onclick="EventCenter.publishEvent('581942915', 'sayHello')"> Click Me </button> hello
+  <div name="hello" id="-2056589270" kind="solymer-input">
+   <button onclick="EventCenter.publishEvent('-2056589270', 'sayHello')" onmouseover="EventCenter.publishEvent('-2056589270', 'sayMouseOver')"> Click Me </button> hello
   </div> 
-  <div id="1193051002" kind="solymer-botguard">
+  <div id="-1858968254" kind="solymer-botguard">
    This is botguard program.
   </div> 
-  <div name="word" id="-1152152971" kind="solymer-input">
-   <button onclick="EventCenter.publishEvent('-1152152971', 'sayHello')"> Click Me </button> word
+  <div name="word" id="2068461260" kind="solymer-input">
+   <button onclick="EventCenter.publishEvent('2068461260', 'sayHello')" onmouseover="EventCenter.publishEvent('2068461260', 'sayMouseOver')"> Click Me </button> word
   </div> 
   <script src="./static/solymer.js" type="text/javascript"></script>   
   <script>
@@ -24,6 +24,9 @@ Polymer('solymer-input', {
       },
       sayHello: function(event) {
         alert("Hello" + this.initialText + " name :" + this.getAttribute('name'));
+      },
+      sayMouseOver: function(event) {
+        alert("Mouseover!");
       }
     });
 Polymer('solymer-botguard', {

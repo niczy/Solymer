@@ -65,13 +65,16 @@ public class SolymerComponent {
             public void head(Node node, int i) {
                 if (node instanceof Element) {
                     Element ele = (Element) node;
-                    String onClick = ele.attr("on-click");
-                    if (onClick.startsWith("{{") && onClick.endsWith("}}")) {
-                        System.out.println(onClick);
-                        ele.removeAttr("on-click");
-                        onClick = onClick.substring(2, onClick.length() - 2);
-                        ele.attr("onclick", "EventCenter.publishEvent('" + id +"', '" +  onClick + "')");
+                    for (Attribute attr : ele.attributes()) {
+                        if (attr.getKey().startsWith("on-")) {
+                            String eventFunc = attr.getValue();
+                            assert eventFunc.startsWith("{{") && eventFunc.endsWith("}}");
+                            ele.removeAttr(attr.getKey());
+                            eventFunc = eventFunc.substring(2, eventFunc.length() - 2);
+                            ele.attr(attr.getKey().replace("-", ""), "EventCenter.publishEvent('" + id +"', '" +  eventFunc + "')");
+                        }
                     }
+
                 } else {
 
                 }

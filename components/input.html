@@ -1,6 +1,6 @@
 <solymer-element wrapper="div" name="solymer-input">
   <template attributes="name">
-    <button on-click={{sayHello}}> Click Me </button>
+  <button on-click={{sayHello}} on-mouseover={{sayMouseOver}}> Click Me </button>
     {{name}}
   </template>
   <script>
@@ -15,6 +15,9 @@
       },
       sayHello: function(event) {
         alert("Hello" + this.initialText + " name :" + this.getAttribute('name'));
+      },
+      sayMouseOver: function(event) {
+        alert("Mouseover!");
       }
     });
   </script>
