@@ -5,7 +5,7 @@
   window.EventCenter = {};
 
   // Global function to register customize elements.
-  window.Polymer = function(elementName, elementConfig) {
+  window.Solymer = function(elementName, elementConfig) {
       console.log(elementName + " created");
       ElementsManager[elementName] = elementConfig;
   };
