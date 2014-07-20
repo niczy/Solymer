@@ -1,4 +1,4 @@
-package com.nich01as.solymer.data;
+package solymer.data;
 
 import org.jsoup.nodes.Document;
 

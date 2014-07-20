@@ -44,7 +44,7 @@
           for (var property in elementInstance) {
             instance[property] = elementInstance[property]; 
           }
-          instance.onload();
+          instance.onload && instance.onload();
       }
     }
   };

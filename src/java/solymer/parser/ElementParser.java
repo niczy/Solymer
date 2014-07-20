@@ -1,6 +1,6 @@
-package com.nich01as.solymer.parser;
+package solymer.parser;
 
-import com.nich01as.solymer.data.SolymerComponent;
+import solymer.data.SolymerComponent;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
@@ -33,8 +33,8 @@ public class ElementParser {
     public static SolymerComponent parseComponent(File file) throws IOException {
         Document document = Jsoup.parse(file, "utf-8");
         //System.out.println(document);
-        Element element = document.getElementsByTag("solymer-element").get(0);
-        return new SolymerComponent(element);
+        //Element element = document.getElementsByTag("solymer-element").get(0);
+        return new SolymerComponent(document);
     }
 
     public static Map<String, SolymerComponent> parseComponents(File dir) throws IOException {
@@ -49,15 +49,9 @@ public class ElementParser {
     }
 
     public static void main(String[] args) throws IOException {
-        String fileName = "components/input.html";
+        String fileName = "components/container.html";
 
-        Element solymerElement = Jsoup.parse(new File(fileName), "utf-8");
-        Element templateElement = solymerElement.getElementsByTag("template").get(0);
-        Attributes attrs = templateElement.attributes();
+        SolymerComponent solymerElement = parseComponent(new File(fileName));
 
-        Element scriptElement = solymerElement.getElementsByTag("script").get(0);
-        templateElement = parseTemplate(templateElement);
-        System.out.println(templateElement.html());
-        System.out.println(scriptElement);
     }
 }

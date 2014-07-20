@@ -2,14 +2,17 @@
  <head> 
  </head> 
  <body> 
-  <div name="hello" id="-894871109" kind="solymer-input">
-   <button onclick="EventCenter.publishEvent('-894871109', 'sayHello')" onmouseover="EventCenter.publishEvent('-894871109', 'sayMouseOver')"> Click Me </button> hello
+  <div name="hello" id="826287872" kind="solymer-input">
+   <button onclick="EventCenter.publishEvent('826287872', 'sayHello')" onmouseover="EventCenter.publishEvent('826287872', 'sayMouseOver')"> Click Me </button> hello
   </div> 
-  <div id="-1435111902" kind="solymer-botguard">
+  <div id="-1209651433" kind="solymer-botguard">
    This is botguard program.
   </div> 
-  <div name="word" id="410136665" kind="solymer-input">
-   <button onclick="EventCenter.publishEvent('410136665', 'sayHello')" onmouseover="EventCenter.publishEvent('410136665', 'sayMouseOver')"> Click Me </button> word
+  <div name="word" id="-1359721867" kind="container">
+   Haha I am container 
+   <div name="I am inside container" id="1597235762" kind="solymer-input"> 
+    <button onclick="EventCenter.publishEvent('1597235762', 'sayHello')" onmouseover="EventCenter.publishEvent('1597235762', 'sayMouseOver')"> Click Me </button> I am inside container 
+   </div>
   </div> 
   <script src="./static/solymer.js" type="text/javascript"></script>   
   <script>
@@ -33,6 +36,10 @@ Polymer('solymer-botguard', {
       onload: function() {
         console.log("solymer botguard loaded");
       },
+    });
+Polymer('container', {
+      onload: function() {
+      }
     });
 </script>
  </body>

@@ -1,8 +1,8 @@
-package com.nich01as.solymer.parser;
+package solymer.parser;
 
-import com.nich01as.solymer.data.SolymerComponent;
-import com.nich01as.solymer.data.SolymerComponentInstance;
-import com.nich01as.solymer.data.SolymerPage;
+import solymer.data.SolymerComponent;
+import solymer.data.SolymerComponentInstance;
+import solymer.data.SolymerPage;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
@@ -35,8 +35,14 @@ public class PageParser {
         final Set<SolymerComponentInstance> componentInstances = new HashSet<SolymerComponentInstance>();
         stack.push(root);
         page.getDocument().traverse(new NodeVisitor() {
+
+            int careLevel = Integer.MAX_VALUE;
+
             @Override
             public void head(Node node, int depth) {
+                if (depth > careLevel) {
+                    return;
+                }
                 if (node instanceof Document) {
                     //System.out.println("append document " + node.nodeName());
                     Document newDoc = new Document(node.baseUri());
@@ -47,7 +53,7 @@ public class PageParser {
                     Element element = (Element) node;
                     Element toBeAdded = new Element(element.tag(), element.baseUri(), element.attributes());
                     if (components.get(node.nodeName()) != null) {
-                        //System.out.println("Resolving " + node.nodeName());
+                        System.out.println("Resolving " + node.nodeName() + " in page");
                         SolymerComponent component = components.get(node.nodeName());
                         String id = String.valueOf(random.nextInt());
                         toBeAdded = components.get(node.nodeName()).resolveTemplate(id, node.attributes());
@@ -75,7 +81,15 @@ public class PageParser {
 
             @Override
             public void tail(Node node, int depth) {
+                if (depth > careLevel) {
+                    return;
+                }
+
                 stack.pop();
+
+                if (depth <= careLevel) {
+                    careLevel = Integer.MAX_VALUE;
+                }
             }
         });
 
@@ -83,7 +97,7 @@ public class PageParser {
         scriptBuilder.append("</script>");
 
         Document document = (Document) root.child(0);
-        System.out.println("initial document " + document + "\n\n");
+
         document.body().append(scriptBuilder.toString());
         return document;
     }
