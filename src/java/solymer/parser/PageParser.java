@@ -56,8 +56,8 @@ public class PageParser {
                         System.out.println("Resolving " + node.nodeName() + " in page");
                         SolymerComponent component = components.get(node.nodeName());
                         String id = String.valueOf(random.nextInt());
-                        toBeAdded = components.get(node.nodeName()).resolveTemplate(id, node.attributes());
-
+                        toBeAdded = components.get(node.nodeName()).resolveTemplate(id, node.attributes(), element.children());
+                        //element.children().remove();
                         //componentInstances.add(new SolymerComponentInstance(id, component, node.attributes()));
                         toBeAdded.attr("id", id);
                         toBeAdded.attr("kind", component.getComponentName());

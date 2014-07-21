@@ -43,8 +43,8 @@ public class SolymerComponent {
         return scriptElement;
     }
 
-    public Element resolveTemplate(String id, Attributes attrs) {
-        return parseTemplate(id, attrs);
+    public Element resolveTemplate(String id, Attributes attrs, Elements children) {
+        return parseTemplate(id, attrs, children);
     }
 
     private void initDeps(Document document) throws IOException {
@@ -65,17 +65,11 @@ public class SolymerComponent {
         return componentName;
     }
 
-    private String parseContent(String content, Attributes attrs) {
-        Iterator<Attribute> it = attrs.iterator();
-
-        while (it.hasNext()) {
-            Attribute attr = it.next();
-            content = content.replace("{{" + attr.getKey() + "}}", attr.getValue());
+    private Element resolveTemplate(Element template, Elements children) {
+        for (Element element : children) {
+            template.appendChild(element);
         }
-        return content;
-    }
 
-    private Element resolveTemplate(Element template) {
         final Stack<Node> stack = new Stack<Node>();
         Element root = new Element(Tag.valueOf("root"), "/", new Attributes());
 
@@ -87,6 +81,7 @@ public class SolymerComponent {
             @Override
             public void head(Node node, int depth) {
                 if (depth > careLevel) {
+                    System.out.println("Unused visit.");
                     return;
                 }
                 if (node instanceof Element) {
@@ -99,7 +94,7 @@ public class SolymerComponent {
                         //System.out.println("Resolving " + node.nodeName());
                         SolymerComponent component = dependencies.get(node.nodeName());
                         String id = String.valueOf(random.nextInt());
-                        toBeAdded = dependencies.get(node.nodeName()).resolveTemplate(id, node.attributes());
+                        toBeAdded = dependencies.get(node.nodeName()).resolveTemplate(id, node.attributes(), element.children());
 
                         //componentInstances.add(new SolymerComponentInstance(id, component, node.attributes()));
                         toBeAdded.attr("id", id);
@@ -132,12 +127,12 @@ public class SolymerComponent {
         return root.child(0);
     }
 
-    private Element parseTemplate(final String id, Attributes attrs) {
+    private Element parseTemplate(final String id, Attributes attrs, Elements children) {
         Element resolvedTemplate = templateElement.clone();
         bindEvents(id, resolvedTemplate);
         String html = resolveAttributes(attrs, resolvedTemplate);
         resolvedTemplate.html(html);
-        resolvedTemplate = resolveTemplate(resolvedTemplate);
+        resolvedTemplate = resolveTemplate(resolvedTemplate, children);
         Element element = new Element(wrapperTag, "/", attrs);
         element.html(resolvedTemplate.html());
         return element;
